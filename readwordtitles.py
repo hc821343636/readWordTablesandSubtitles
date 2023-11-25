@@ -13,22 +13,22 @@ def read_first_level_titles(doc):
             first_level_titles.append(title_text)
             first_level_titles_index.append(i)
 
-    return first_level_titles, first_level_titles_index
+    return (first_level_titles, first_level_titles_index)
 
 
 def read_titles(doc):
     all_titles_dict = {}
-    _, first_level_titles_index = read_first_level_titles(doc)
-    for i in first_level_titles_index:
-        all_titles_dict.update(read_all_titles(doc, start=i))
+    first_level_titles, first_level_titles_index = read_first_level_titles(doc)
+    print(first_level_titles)
+    for first_title,i in zip(first_level_titles,first_level_titles_index):
+        all_titles_dict[first_title]=read_all_titles(doc=doc, current_level=1,start=i)
+        #all_titles_dict.update(read_all_titles(doc=doc, current_level=1,start=i))
     return all_titles_dict
 
 
-def read_all_titles(doc=None, current_level=1, start=0, current_dict=None):
-    if current_dict is None:
-        current_dict = {}
-
-    for i in range(start, len(doc.paragraphs)):
+def read_all_titles(doc, current_level, start):
+    current_dict={}
+    for i in range(start+1, len(doc.paragraphs)):
         style_name = doc.paragraphs[i].style.name
         if not style_name.startswith('Heading'):
             # 跳过非标题段落
@@ -36,13 +36,13 @@ def read_all_titles(doc=None, current_level=1, start=0, current_dict=None):
         # print(style_name.split())
         level = int(style_name.split()[-1])
 
-        if level == current_level:
+        if level == current_level + 1:
+            print('hhh')
             title_text = doc.paragraphs[i].text
-            current_dict[title_text] = {}
-        elif level == current_level + 1:
-            current_dict[title_text] = read_all_titles(doc, level, i, current_dict[title_text])
-        else:
+            current_dict[title_text] = read_all_titles(doc, level, i)
+        elif level==current_level:
             break
+
 
     return current_dict
 
