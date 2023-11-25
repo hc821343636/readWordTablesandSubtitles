@@ -8,6 +8,7 @@ class readWord:
         self.all_tables = self.read_all_tables_to_dataframe()
         '''for table in self.all_tables:
             print(table)'''
+        print(len(self.all_tables))
         self.tablesindex = 0
 
     def read_all_tables_to_dataframe(self):
@@ -69,7 +70,7 @@ class readWord:
 
         for i in range(start + 1, len(self.doc.paragraphs)):
             style_name = self.doc.paragraphs[i].style.name
-            print(style_name)
+            #print(style_name)
             if not style_name.startswith('Heading'):
                 # 跳过非标题段落
                 continue
@@ -81,7 +82,9 @@ class readWord:
                 current_dict[title_text] = self.read_all_titles(level, i)
             elif level == current_level:
                 break
-
+        if current_dict=={}:
+            current_dict=self.all_tables[self.tablesindex]
+            self.tablesindex+=1
         return current_dict
 
 
