@@ -95,5 +95,6 @@ if __name__ == "__main__":
 
     rd = readWord(word_path)
     print(rd.read_titles())
+    #222
 
     # 打印一级标题列表
