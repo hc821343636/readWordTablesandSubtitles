@@ -93,7 +93,7 @@ if __name__ == "__main__":
     word_path = "sampleTitleDocument.docx"
     # create_sample_document(word_path)
 
-    rd = readWord(word_path+'')
+    rd = readWord(word_path)
     print(rd.read_titles())
     #222
 
