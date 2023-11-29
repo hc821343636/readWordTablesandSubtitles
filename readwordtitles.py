@@ -4,6 +4,7 @@ import pandas as pd
 from docx import Document
 from py2neo import Graph, Node, Relationship
 
+
 class readWord:
     def __init__(self, word_path):
         self.titleDict = {
@@ -64,12 +65,12 @@ class readWord:
         first_level_titles_index = []
 
         for i in range(len(self.doc.paragraphs)):
-            #print(self.doc.paragraphs[i].style.name)
-            #print('$' * 100)
+            # print(self.doc.paragraphs[i].style.name)
+            # print('$' * 100)
             curParagraph = self.doc.paragraphs[i]
             if curParagraph.style.name.startswith('Heading 1') or curParagraph.style.name == '1级':
                 # 获取一级标题文本
-                #print("get one title")
+                # print("get one title")
                 title_text = self.extract_content_inside_brackets(curParagraph.text) or curParagraph.text
                 first_level_titles.append(title_text)
                 first_level_titles_index.append(i)
@@ -79,7 +80,7 @@ class readWord:
     def read_titles(self):
         all_titles_dict = {}
         first_level_titles, first_level_titles_index = self.read_first_level_titles()
-        #print(first_level_titles)
+        # print(first_level_titles)
         for first_title, i in zip(first_level_titles, first_level_titles_index):
             all_titles_dict[first_title] = self.read_all_titles(current_level=1, start=i)
         return all_titles_dict
@@ -134,7 +135,7 @@ class readWord:
                 result += " " * (indent + 4) + str(value) + "\n"
         return result
 
-    def create_tree(self,graph, data, parent=None):
+    def create_tree(self, graph, data, parent=None):
         for key, value in data.items():
             node = Node("Chapter", name=key)
             graph.create(node)
@@ -143,13 +144,13 @@ class readWord:
                 graph.create(relationship)
             if isinstance(value, dict):
                 self.create_tree(graph, value, node)
-    def load2neo4j(self,data,uri="bolt://localhost:7687",user="neo4j",password="12345678"):
+
+    def load2neo4j(self, data, uri="bolt://localhost:7687", user="neo4j", password="12345678"):
         graph = Graph(uri, auth=(user, password))
         graph.delete_all()
         paper = {}
         paper['全文'] = data
-        self.create_tree(graph=graph,data=paper)
-
+        self.create_tree(graph=graph, data=paper)
 
 
 if __name__ == "__main__":
