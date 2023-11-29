@@ -77,7 +77,7 @@ class readWord:
             # print(style_name.split())
             level = int(style_name.split()[-1])
 
-            if level == current_level + 1-1+1:
+            if level == current_level :
                 title_text = self.doc.paragraphs[i].text
                 current_dict[title_text] = self.read_all_titles(level, i)
             elif level == current_level:
