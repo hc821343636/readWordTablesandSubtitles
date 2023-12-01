@@ -104,7 +104,7 @@ class readWord:
                 self.visit[i] = True
                 title_text = self.extract_content_inside_brackets(curParagraph.text) or curParagraph.text
                 current_dict[title_text] = self.read_all_titles(level, i)
-            elif level == current_level:
+            else:
                 break
         if fillTable and len(current_dict) == 0:
             current_dict = self.all_tables[self.tablesindex]
