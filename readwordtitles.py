@@ -1,12 +1,15 @@
+import csv
 import re
 
 import pandas as pd
 from docx import Document
-from py2neo import Graph, Node, Relationship
+from py2neo import Graph
+
+from AtoA import AtoA
 
 
 class readWord:
-    def __init__(self, word_path):
+    def __init__(self, word_path, csv_file):
         self.titleDict = {
             '1级': 'Heading 1',
             '2级': 'Heading 2',
@@ -26,6 +29,11 @@ class readWord:
         # print(len(self.all_tables))
         self.tablesindex = 0
         self.visit = [False] * len(self.doc.paragraphs)
+        self.csv_file = csv_file
+        with open(self.csv_file, 'w', newline='') as file:
+            # 创建 CSV writer 对象
+            self.csv_writer = csv.writer(file)
+
 
     def read_all_tables_to_dataframe(self):
         # 初始化一个空列表来存储所有表格的DataFrame
@@ -111,6 +119,33 @@ class readWord:
             self.tablesindex += 1
         return current_dict
 
+    def read_all_titles2(self, plevel, pdict, start, fillTable=False):
+        index = start
+        now_dic = {}
+        for index in range(start, len(self.doc.paragraphs)):
+            curParagraph = self.doc.paragraphs[index]  # 当前段落
+            style_name = curParagraph.style.name  # 当前段落格式
+            if style_name in self.titleDict.keys():
+                style_name = self.titleDict[style_name]
+            if not style_name.startswith('Heading'):
+                # 跳过非标题段落
+                continue
+            # print(style_name.split())
+            level = int(style_name.split()[-1])
+
+            if level > plevel:
+                title_text = self.extract_content_inside_brackets(curParagraph.text) or curParagraph.text
+                pdict[title_text] = now_dic
+                index = self.read_all_titles2(level, now_dic, index + 1)
+                if index < len(self.doc.paragraphs):
+                    index -= 1
+            else:
+                break
+        if fillTable and len(pdict) == 0:
+            current_dict = self.all_tables[self.tablesindex]
+            self.tablesindex += 1
+        return index
+
     def extract_content_inside_brackets(self, sentence):
         """
         提取中文方括号内的内容
@@ -136,14 +171,17 @@ class readWord:
         return result
 
     def create_tree(self, graph, data, parent=None):
+        # 写入数据
+
         for key, value in data.items():
-            node = Node("Chapter", name=key)
-            graph.create(node)
+            # node = Node("Chapter", name=key)
+            # graph.create(node)
             if parent is not None:
-                relationship = Relationship(parent, "HAS_CHILD", node)
-                graph.create(relationship)
+                self.csv_writer.writerow(parent, "HAS_CHILD", key, '_', '_', "Chapter", "Chapter")
+                # relationship = Relationship(parent, "HAS_CHILD", node)
+                # graph.create(relationship)
             if isinstance(value, dict):
-                self.create_tree(graph, value, node)
+                self.create_tree(graph, value, key)
 
     def load2neo4j(self, data, uri="bolt://localhost:7687", user="neo4j", password="12345678"):
         graph = Graph(uri, auth=(user, password))
