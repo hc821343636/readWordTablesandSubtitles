@@ -172,28 +172,28 @@ class readWord:
                 result += " " * (indent + 4) + str(value) + "\n"
         return result
 
-    def loadCsv(self, data, csv_writer,parent=None):
+    def loadCsv(self, rows, data, parent=None):
         # 写入数据
 
         for key, value in data.items():
             # node = Node("Chapter", name=key)
             # graph.create(node)
             if parent is not None:
-
-                csv_writer.writerow((parent, "HAS_CHILD", key, '_', '_', "Chapter", "Chapter"))
+                rows.append([parent, "HAS_CHILD", key, '_', '_', "Chapter", "Chapter"])
+                # csv_writer.writerow((parent, "HAS_CHILD", key, '_', '_', "Chapter", "Chapter"))
                 # relationship = Relationship(parent, "HAS_CHILD", node)
                 # graph.create(relationship)
             if isinstance(value, dict):
-                self.loadCsv(value, csv_writer,key)
+                self.loadCsv(rows, value, key)
 
     def getTitleCsv(self, data):
         # graph.delete_all()
         paper = {}
         paper['全文'] = data
+        rows = []
         with open(self.csv_file_path, 'w', encoding='utf-8') as file:
-            csv_writer = csv.writer(file)
-            self.loadCsv(data=paper,csv_writer=csv_writer)
-        self.assign_numbers()
+            self.loadCsv(data=paper, rows=rows)
+        self.assign_numbers(rows=rows)
         self.create_graph_from_csv(self.csv_file_path)
 
     def create_graph_from_csv(self, csv_file: str, uri: str = "bolt://localhost:7687", username: str = "neo4j",
@@ -217,14 +217,16 @@ class readWord:
         with open(csv_file, 'r', encoding='utf-8') as file:
             csv_reader = csv.reader(file)
             # 跳过表头
-            #next(csv_reader, None)
+            # next(csv_reader, None)
 
             for row in tqdm(csv_reader, position=0):
-                sender_name, action_name, receiver_name, sender_number, receiver_number,sender_class, receiver_class= row
+                print(row)
+                sender_name, action_name, receiver_name, sender_number, receiver_number, sender_class, receiver_class = row
 
                 # 检查节点是否已存在，如果不存在则创建
 
-                sender_node = created_nodes.get(sender_number, Node(sender_class, name=sender_name, number=sender_number))
+                sender_node = created_nodes.get(sender_number,
+                                                Node(sender_class, name=sender_name, number=sender_number))
                 receiver_node = created_nodes.get(receiver_number,
                                                   Node(receiver_class, name=receiver_name, number=receiver_number))
 
@@ -238,7 +240,7 @@ class readWord:
                 # 将节点和关系添加到图数据库
                 graph.create(sender_node | receiver_node | action_relationship)
 
-    def assign_numbers(self, current_number=0):
+    def assign_numbers(self, rows, current_number=0):
         '''
 
         Args:
@@ -251,12 +253,12 @@ class readWord:
         '''
         objects = {}  # 用于存储实物及其编号的字典
         # current_number  # 当前编号553
-        rows = []
-        with open(self.csv_file_path, 'r', newline='', encoding='utf-8') as infile:
-            reader = csv.reader(infile)
-            # print(reader)
 
-            for row in tqdm(reader, position=0):
+        # print(reader)
+        with open(self.csv_file_path, 'w', newline='', encoding='utf-8') as outfile:
+            writer = csv.writer(outfile)
+
+            for row in tqdm(rows, position=0):
                 # 获取实物名称
                 # 检查行的长度，如果不足5个字段则跳过
 
@@ -264,6 +266,7 @@ class readWord:
                     continue"""
                 # print(row)
                 # 获取实物名称
+                print(row)
                 object1, relation, object2, number1, number2 = row[:5]
 
                 # 处理第一列实物
@@ -285,12 +288,10 @@ class readWord:
                 # 更新行中的编号
                 row[3] = objects[object1] if number1 == '_' else number1
                 row[4] = objects[object2] if number2 == '_' else number2
-                rows.append(row)
+                writer.writerow(row)
                 # 写入到输出文件
-            print(rows)
-            with open(self.csv_file_path, 'w', newline='', encoding='utf-8') as outfile:
-                writer = csv.writer(outfile)
-                writer.writerows(rows)
+        #print(rows)
+
 
 
 if __name__ == "__main__":
