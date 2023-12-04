@@ -1,8 +1,7 @@
 import re
 
-import pandas as pd
-from docx import Document
-from py2neo import Graph, Node, Relationship
+from ltp import StnSplit
+
 '''
 处理冒号的并列关系
 该代码可以将类似于：
@@ -18,7 +17,9 @@ from py2neo import Graph, Node, Relationship
 ”
 这种并列关系的句子供ltp代码识别
 '''
-def readtxt(filePath):
+
+
+def readTxt(filePath):
     # 打开文件
     with open(filePath, 'r') as file:
         # 读取文件内容
@@ -27,31 +28,57 @@ def readtxt(filePath):
         cleaned_content = content.replace(" ", "").replace("\n", "")
         # 打印文件内容
         return cleaned_content
+
+
+def writeTxt(filePath, res):
+    with open(filePath, 'w') as file:
+        file.write(res)
+
 def extract_content(sentence):
     # 获取目标内容 即】...：的内容
-    print(sentence)
+    #print(sentence)
     p = re.compile(r'[】](.*?)[：]', re.S)
     matches = re.findall(p, sentence)
-    return matches[0]+'是' if len(matches) > 0 else None
+    return matches[0] + '是' if len(matches) > 0 else None
+
+
 def replace_numbered_markers(text, replacement):
     # 使用正则表达式进行替换
     # 将：（[一]）替换为是
-    pattern = r'：（[一]）'
+    pattern = r'：.*（[一]）'
     replacement_text = "是"
-    text = re.sub(pattern, replacement_text , text)
+    text = re.sub(pattern, replacement_text, text)
     # 将：（[二三四五六七八九十]）替换为xxxx是
     pattern = re.compile(r'（[二三四五六七八九十]+）')
-    result = re.sub(pattern, replacement, text)
-    return result
+
+    return re.sub(pattern, replacement, text) if replacement is not None else text
+
+
+def updateTxt(filePath, ):
+    content = readTxt(filePath)
+    lastIndex = 0
+    sents = StnSplit().split(content)
+    res = ""
+    colonE = ':'
+    colonC = '：'
+    for sent in sents:
+        if colonC in sent:
+            sentsBeforeColon = ''.join(sents[lastIndex:sents.index(sent)])
+            print(sentsBeforeColon)
+            lastIndex = sents.index(sent)
+            replacement = extract_content(sentsBeforeColon)
+            res += replace_numbered_markers(sentsBeforeColon, replacement)
+    sentsBeforeColon = ''.join(sents[lastIndex:])
+    replacement = extract_content(sentsBeforeColon)
+    res += replace_numbered_markers(sentsBeforeColon, replacement)
+    print(res)
+    writeTxt(filePath,res)
+
+
 
 if __name__ == '__main__':
-    filePath="冒号测试.txt"
-    content=readtxt(filePath)
-    for i in content:
-        print(i)
-    replacement=extract_content(content)
-    print(replace_numbered_markers(content,replacement))
-    print()
+    filePath = "冒号测试.txt"
+
+    updateTxt(filePath)
 
     # 使用正则表达式提取目标内容
-
