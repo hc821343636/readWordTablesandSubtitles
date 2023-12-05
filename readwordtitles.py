@@ -92,9 +92,12 @@ class readWord:
         first_level_titles, first_level_titles_index = self.read_first_level_titles()
         # print(first_level_titles)
         for first_title, i in zip(first_level_titles, first_level_titles_index):
-            all_titles_dict[first_title] = self.read_all_titles(current_level=1, start=i)
-        return all_titles_dict
-
+            # all_titles_dict[first_title] = self.read_all_titles(current_level=1, start=i)
+            pass
+        # return all_titles_dict
+        dic = {}
+        all_titles_dict[first_title] = self.read_all_titles2(plevel=0, pdict=dic, start=0)
+        return dic
     def read_all_titles(self, current_level, start, fillTable=False):
         current_dict = {}
         for i in range(start + 1, len(self.doc.paragraphs)):
@@ -124,13 +127,15 @@ class readWord:
     def read_all_titles2(self, plevel, pdict, start, fillTable=False):
         index = start
         now_dic = {}
-        for index in range(start, len(self.doc.paragraphs)):
+        size = len(self.doc.paragraphs)
+        while index < size:
             curParagraph = self.doc.paragraphs[index]  # 当前段落
             style_name = curParagraph.style.name  # 当前段落格式
             if style_name in self.titleDict.keys():
                 style_name = self.titleDict[style_name]
             if not style_name.startswith('Heading'):
                 # 跳过非标题段落
+                index+=1
                 continue
             # print(style_name.split())
             level = int(style_name.split()[-1])
@@ -139,10 +144,11 @@ class readWord:
                 title_text = self.extract_content_inside_brackets(curParagraph.text) or curParagraph.text
                 pdict[title_text] = now_dic
                 index = self.read_all_titles2(level, now_dic, index + 1)
-                if index < len(self.doc.paragraphs):
+                if index < size:
                     index -= 1
             else:
                 break
+            index+=1
         if fillTable and len(pdict) == 0:
             current_dict = self.all_tables[self.tablesindex]
             self.tablesindex += 1
@@ -301,6 +307,7 @@ if __name__ == "__main__":
     csv_file = 'csv_file.csv'
     rd = readWord(word_path, csv_file)
     res = rd.read_titles()
+    print(rd.format_data(res))
     rd.getTitleCsv(res)
     print(rd.format_data(data=res))
 
