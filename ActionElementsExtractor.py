@@ -1,5 +1,5 @@
 import pandas as pd
-
+# 读取excel行动的特征
 def process_excel_file(file_path: str) -> dict:
     """
     处理 Excel 文件，创建嵌套字典结构。

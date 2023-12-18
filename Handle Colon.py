@@ -16,6 +16,14 @@ from ltp import StnSplit
 网络信息管理员的目的是融合网络改进和扩展项目，以满足业务的不断增长的需求。
 ”
 这种并列关系的句子供ltp代码识别
+
+有一个潜在的问题是，如果：
+第七条 设备维护主要包括：表单建立、指派人员、维修闭环等环节。
+（一）表单建立。跟进反馈系统创建故障表单。
+（二）指派人员。依照当前人员调度情况指派维修人员前往维护。
+（三）维修闭环。业务结束对该次表单进行总结。
+那么一个点会被识别为2句话
+
 '''
 
 
@@ -31,6 +39,7 @@ def readTxt(filePath):
 
 
 def writeTxt(filePath, res):
+    filePath='冒号替换结果.txt'
     with open(filePath, 'w') as file:
         file.write(res)
 
@@ -45,7 +54,7 @@ def extract_content(sentence):
 def replace_numbered_markers(text, replacement):
     # 使用正则表达式进行替换
     # 将：（[一]）替换为是
-    pattern = r'：.*（[一]）'
+    pattern = r'：.*（一）'
     replacement_text = "是"
     text = re.sub(pattern, replacement_text, text)
     # 将：（[二三四五六七八九十]）替换为xxxx是
@@ -61,6 +70,7 @@ def updateTxt(filePath, ):
     res = ""
     colonE = ':'
     colonC = '：'
+    print(sents)
     for sent in sents:
         if colonC in sent:
             sentsBeforeColon = ''.join(sents[lastIndex:sents.index(sent)])

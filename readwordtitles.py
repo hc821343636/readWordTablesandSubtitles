@@ -92,12 +92,12 @@ class readWord:
         first_level_titles, first_level_titles_index = self.read_first_level_titles()
         # print(first_level_titles)
         for first_title, i in zip(first_level_titles, first_level_titles_index):
-            # all_titles_dict[first_title] = self.read_all_titles(current_level=1, start=i)
-            pass
+            all_titles_dict[first_title] = self.read_all_titles(current_level=1, start=i)
+
         # return all_titles_dict
-        dic = {}
-        all_titles_dict[first_title] = self.read_all_titles2(plevel=0, pdict=dic, start=0)
-        return dic
+        """dic = {}
+        all_titles_dict[first_title] = self.read_all_titles2(plevel=0, pdict=dic, start=0)"""
+        return all_titles_dict
     def read_all_titles(self, current_level, start, fillTable=False):
         current_dict = {}
         for i in range(start + 1, len(self.doc.paragraphs)):
