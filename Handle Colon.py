@@ -90,5 +90,4 @@ if __name__ == '__main__':
     filePath = "冒号测试.txt"
 
     updateTxt(filePath)
-
-    # 使用正则表达式提取目标内容
+    import sympy as sp
