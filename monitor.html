@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Real-time Monitoring System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .container {
+            padding: 20px;
+        }
+        .card {
+            background-color: white;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        }
+        .status-bar {
+            height: 20px;
+            background-color: #ddd;
+        }
+        .status-bar-fill {
+            height: 100%;
+            width: 50%; /* Example fill percentage */
+            background-color: #4CAF50;
+        }
+        .vulnerability-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .vulnerability-icon {
+            width: 20px;
+            height: 20px;
+            background-color: #ffcc00;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .vulnerability-desc {
+            flex-grow: 1;
+        }
+        .vulnerability-progress {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .vulnerability-progress-fill {
+            height: 10px;
+            width: 75%; /* Example percentage */
+            background-color: #4caf50;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Real-time Monitoring Dashboard</h1>
+</div>
+
+<div class="container">
+    <div class="card">
+        <h2>Container Image Status</h2>
+        <div class="status-bar">
+            <div class="status-bar-fill"></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Vulnerability Updates</h2>
+        <div class="vulnerability-item">
+            <div class="vulnerability-icon"></div>
+            <div class="vulnerability-desc">
+                High-risk vulnerability detected in Image #123
+            </div>
+        </div>
+        <div class="vulnerability-item">
+            <div class="vulnerability-icon"></div>
+            <div class="vulnerability-desc">
+                Moderate vulnerability found in Image #456
+            </div>
+        </div>
+        <div class="vulnerability-progress">
+            <div class="vulnerability-progress-fill"></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>System Notifications</h2>
+        <ul>
+            <li>Alert: Vulnerability detected in Image #123</li>
+            <li>Update: Image #456 scanned successfully</li>
+            <li>Info: New security patch applied</li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>

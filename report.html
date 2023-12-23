@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Security Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .container {
+            padding: 20px;
+        }
+        .card {
+            background-color: white;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .severity {
+            display: inline-block;
+            padding: 2px 5px;
+            border-radius: 5px;
+            color: white;
+        }
+        .high {
+            background-color: red;
+        }
+        .medium {
+            background-color: orange;
+        }
+        .low {
+            background-color: yellow;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Container Security Report</h1>
+</div>
+
+<div class="container">
+    <div class="card">
+        <h2>Summary</h2>
+        <p>
+            This report provides a comprehensive security assessment of the scanned container images.
+            It includes details of all identified vulnerabilities and suggested remediation steps.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>Detected Vulnerabilities</h2>
+        <table>
+            <tr>
+                <th>Vulnerability</th>
+                <th>Severity</th>
+                <th>Image</th>
+                <th>Recommendation</th>
+            </tr>
+            <tr>
+                <td>CVE-2023-1234 (Remote Code Execution)</td>
+                <td><span class="severity high">High</span></td>
+                <td>Image A</td>
+                <td>Update to version 3.0.1</td>
+            </tr>
+            <tr>
+                <td>CVE-2022-9876 (SQL Injection Vulnerability)</td>
+                <td><span class="severity medium">Medium</span></td>
+                <td>Image B</td>
+                <td>Apply patch 2.2.8</td>
+            </tr>
+            <tr>
+                <td>CVE-2021-7654 (Cross-Site Scripting)</td>
+                <td><span class="severity low">Low</span></td>
+                <td>Image C</td>
+                <td>Sanitize input fields</td>
+            </tr>
+            <!-- More rows can be added here -->
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>Remediation Steps</h2>
+        <ul>
+            <li>Update Image A to the latest version to resolve CVE-2023-1234.</li>
+            <li>Apply security patch 2.2.8 to Image B for CVE-2022-9876.</li>
+            <li>Implement input field sanitization for Image C to prevent XSS (CVE-2021-7654).</li>
+            <!-- More steps can be added here -->
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>

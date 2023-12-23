@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Container Cloud Security Architecture</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+        .box {
+            border: 2px solid black;
+            padding: 10px;
+            margin: 5px;
+            text-align: center;
+        }
+        .line {
+            border: 1px solid black;
+            width: 2px;
+            height: 20px;
+            margin-left: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="box">Kubernetes Cluster</div>
+        <div class="line"></div>
+        <div class="box">Security Scanning (Clair, Anchore Engine)</div>
+        <div class="line"></div>
+        <div class="box">Runtime Security (Twistlock)</div>
+        <div class="line"></div>
+        <div class="box">Monitoring (Prometheus, Grafana)</div>
+        <div class="line"></div>
+        <div class="box">Administrator (User Interface)</div>
+    </div>
+</body>
+</html>

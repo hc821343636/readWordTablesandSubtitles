@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Container Monitoring Dashboard</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+    }
+    .sidebar {
+        width: 200px;
+        background-color: #333;
+        color: white;
+        height: 100vh;
+        padding: 20px;
+    }
+    .sidebar a {
+        color: white;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 10px;
+    }
+    .main-content {
+        flex-grow: 1;
+        padding: 20px;
+        background-color: #f4f4f4;
+    }
+    .card {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    .progress-bar {
+        background-color: #ddd;
+        border-radius: 4px;
+        padding: 2px;
+        margin: 10px 0;
+    }
+    .progress {
+        height: 20px;
+        border-radius: 4px;
+    }
+    .progress.red {
+        background-color: #ff4c4c; /* Red color for high usage */
+    }
+    .progress.green {
+        background-color: #4CAF50; /* Green color for normal usage */
+    }
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+    <a href="#">容器管理</a>
+    <a href="#">设置</a>
+    <a href="#">个人信息管理</a>
+    <a href="#">退出</a>
+</div>
+
+<div class="main-content">
+    <div class="card">
+        <h3>CPU Usage</h3>
+        <div class="progress-bar">
+            <div class="progress green" style="width: 60%;"></div>
+        </div>
+    </div>
+    <div class="card">
+        <h3>Memory Usage</h3>
+        <div class="progress-bar">
+            <div class="progress green" style="width: 75%;"></div>
+        </div>
+    </div>
+    <div class="card">
+        <h3>Network Traffic</h3>
+        <div class="progress-bar">
+            <div class="progress green" style="width: 40%;"></div>
+        </div>
+    </div>
+    <div class="card">
+        <h3>Disk Usage</h3>
+        <div class="progress-bar">
+            <div class="progress red" style="width: 90%;"></div> <!-- Red progress bar for high disk usage -->
+        </div>
+    </div>
+    <div class="card">
+        <h3>Container Count</h3>
+        <div class="progress-bar">
+            <div class="progress green" style="width: 50%;"></div>
+        </div>
+    </div>
+    <!-- Additional cards can be added here -->
+</div>
+
+</body>
+</html>
