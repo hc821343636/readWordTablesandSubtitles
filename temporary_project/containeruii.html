@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>容器资产管理平台</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        .dashboard {
+            background: #333;
+            color: #fff;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .box {
+            width: calc(33.333% - 20px);
+            background: #007bff;
+            padding: 10px;
+            margin: 10px;
+            float: left;
+            color: white;
+        }
+
+        .clearfix {
+            clear: both;
+        }
+
+        .chart {
+            height: 250px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .grid-item {
+            background-color: #0099ff;
+            border: 1px solid #0066cc;
+            padding: 10px;
+            font-size: 0.9em;
+            text-align: center;
+        }
+
+        .high-usage {
+            background-color: #ff6666;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header class="dashboard">
+        <h1>容器资产管理平台</h1>
+    </header>
+
+    <div class="dashboard">
+        <div class="box">
+            <h2>CPU 使用率</h2>
+            <div class="grid-container">
+                <div class="grid-item">CPU 1: 30.2%</div>
+                <div class="grid-item">CPU 2: 45.2%</div>
+                <div class="grid-item">CPU 3: 76.1%</div>
+                <div class="grid-item">CPU 4: 12.0%</div>
+                <div class="grid-item">CPU 5: 30.2%</div>
+                <div class="grid-item">CPU 6: 45.2%</div>
+                <div class="grid-item">CPU 7: 76.1%</div>
+                <div class="grid-item">CPU 8: 12.0%</div>
+                <div class="grid-item">CPU 9: 0%</div>
+                <div class="grid-item">CPU 10: 45.2%</div>
+                <div class="grid-item">CPU 11: 66.3%</div>
+                <div class="grid-item">CPU 12: 12.5%</div>
+                <div class="grid-item">CPU 13: 33.7%</div>
+                <div class="grid-item">CPU 14: 7.2%</div>
+                <div class="grid-item">CPU 15: 13.5%</div>
+                <div class="grid-item">CPU 16: 43.7%</div>
+                <div class="grid-item high-usage">CPU 17: 85%</div>
+                <div class="grid-item high-usage">CPU 18: 97%</div>
+                <!-- 更多 CPU 格子 -->
+            </div>
+        </div>
+        <div class="box">
+            <h2>内存消耗</h2>
+            <div class="grid-container">
+                <div class="grid-item">内存 1: 45%</div>
+                <div class="grid-item">内存 2: 60%</div>
+                <div class="grid-item">内存 3: 15%</div>
+                <div class="grid-item">内存 4: 22%</div>
+                <div class="grid-item high-usage">内存 5: 85%</div>
+                <div class="grid-item">内存 6: 52%</div>
+                <!-- 更多内存格子 -->
+            </div>
+        </div>
+        <div class="box">
+            <h2>存储空间</h2>
+            <div class="grid-container">
+                <div class="grid-item">存储 1: 24%</div>
+                <div class="grid-item">存储 2: 15%</div>
+                <div class="grid-item high-usage">存储 3: 90%</div>
+                <div class="grid-item">存储 4: 43%</div>
+                <div class="grid-item">存储 5: 34%</div>
+                <div class="grid-item">存储 6: 27%</div>
+
+                <!-- 更多存储格子 -->
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="dashboard">
+        <h2>集群节点状态</h2>
+        <!-- 集群节点的动态表格数据 -->
+        <table>
+            <!-- 表头 -->
+            <tr>
+                <th>节点</th>
+                <th>CPU</th>
+                <th>内存</th>
+                <th>存储</th>
+                <th>网络状态</th>
+            </tr>
+            <!-- 动态生成的节点数据 -->
+            <!-- 示例数据 -->
+            <tr>
+                <td>Master</td>
+                <td>75%</td>
+                <td>60%</td>
+                <td>40GB</td>
+                <td>稳定</td>
+            </tr>
+            <tr>
+                <td>Slave 1</td>
+                <td>65%</td>
+                <td>70%</td>
+                <td>30GB</td>
+                <td>稳定</td>
+            </tr>
+        </table>
+    </div>
+
+    <footer class="dashboard">
+        <p>容器资产管理平台 &copy; 2023</p>
+    </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // 使用Chart.js创建图表
+    var ctx = document.getElementById('cpuChart').getContext('2d');
+    var cpuChart = new Chart(ctx, {
+        // 图表类型
+        type: 'line',
+        data: {
+            // 数据集
+            datasets: [{
+                label: 'CPU 使用率',
+                data: [65, 59, 80, 81, 56, 55, 40], // 示例数据
+                backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                borderColor: 'rgba(0, 123, 255, 1)',
+                borderWidth: 1
+            }],
+            // X轴标签
+            labels: ['一', '二', '三', '四', '五', '六', '日']
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+    // 类似地，可以为内存和存储创建图表
+</script>
+</body>
+</html>

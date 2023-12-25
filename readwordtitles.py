@@ -23,6 +23,8 @@ class readWord:
             '10级': 'Heading 10',
         }
         self.doc = Document(word_path)
+        for pa in self.doc.paragraphs:
+            print(pa.style.name)
         self.all_tables = self.read_all_tables_to_dataframe()
         '''for table in self.all_tables:
             print(table)'''
@@ -98,6 +100,7 @@ class readWord:
         """dic = {}
         all_titles_dict[first_title] = self.read_all_titles2(plevel=0, pdict=dic, start=0)"""
         return all_titles_dict
+
     def read_all_titles(self, current_level, start, fillTable=False):
         current_dict = {}
         for i in range(start + 1, len(self.doc.paragraphs)):
@@ -123,36 +126,6 @@ class readWord:
             current_dict = self.all_tables[self.tablesindex]
             self.tablesindex += 1
         return current_dict
-
-    def read_all_titles2(self, plevel, pdict, start, fillTable=False):
-        index = start
-        now_dic = {}
-        size = len(self.doc.paragraphs)
-        while index < size:
-            curParagraph = self.doc.paragraphs[index]  # 当前段落
-            style_name = curParagraph.style.name  # 当前段落格式
-            if style_name in self.titleDict.keys():
-                style_name = self.titleDict[style_name]
-            if not style_name.startswith('Heading'):
-                # 跳过非标题段落
-                index+=1
-                continue
-            # print(style_name.split())
-            level = int(style_name.split()[-1])
-
-            if level > plevel:
-                title_text = self.extract_content_inside_brackets(curParagraph.text) or curParagraph.text
-                pdict[title_text] = now_dic
-                index = self.read_all_titles2(level, now_dic, index + 1)
-                if index < size:
-                    index -= 1
-            else:
-                break
-            index+=1
-        if fillTable and len(pdict) == 0:
-            current_dict = self.all_tables[self.tablesindex]
-            self.tablesindex += 1
-        return index
 
     def extract_content_inside_brackets(self, sentence):
         """
@@ -296,8 +269,7 @@ class readWord:
                 row[4] = objects[object2] if number2 == '_' else number2
                 writer.writerow(row)
                 # 写入到输出文件
-        #print(rows)
-
+        # print(rows)
 
 
 if __name__ == "__main__":
