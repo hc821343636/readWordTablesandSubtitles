@@ -23,7 +23,6 @@ class readWord:
             '10级': 'Heading 10',
         }
         self.doc = Document(word_path)
-
         self.all_tables = self.read_all_tables_to_dataframe()
         '''for table in self.all_tables:
             print(table)'''
@@ -37,17 +36,11 @@ class readWord:
         """""with open(self.csv_file, 'w', newline='') as file:
             # 创建 CSV writer 对象
             self.csv_writer = csv.writer(file)"""""
-        self.rows = []
-
-    def print_content(self):
-        # 获取word内容以及 heading
-        for pa in self.doc.paragraphs:
-            print(pa.style.name)
-            print(pa.text)
 
     def read_all_tables_to_dataframe(self):
         # 初始化一个空列表来存储所有表格的DataFrame
         all_tables = []
+
         # 遍历文档中的所有表格
         for table in self.doc.tables:
             # 将表格转换为DataFrame
@@ -100,10 +93,6 @@ class readWord:
         # print(first_level_titles)
         for first_title, i in zip(first_level_titles, first_level_titles_index):
             all_titles_dict[first_title] = self.read_all_titles(current_level=1, start=i)
-
-        # return all_titles_dict
-        """dic = {}
-        all_titles_dict[first_title] = self.read_all_titles2(plevel=0, pdict=dic, start=0)"""
         return all_titles_dict
 
     def read_all_titles(self, current_level, start, fillTable=False):
@@ -115,9 +104,6 @@ class readWord:
                 style_name = self.titleDict[style_name]
             # print(style_name)
             # 如果需要进行填表，且当前表没有被填过，或者当前段落不是标题（标题 x或者 x级）
-            if not self.visit[i] and style_name == "Normal":
-                self.visit[i] = True
-                return curParagraph.text
             if self.visit[i] or not style_name.startswith('Heading'):
                 # 跳过非标题段落
                 continue
@@ -134,6 +120,33 @@ class readWord:
             current_dict = self.all_tables[self.tablesindex]
             self.tablesindex += 1
         return current_dict
+
+    def read_all_titles2(self, plevel, pdict, start, fillTable=False):
+        index = start
+        now_dic = {}
+        for index in range(start, len(self.doc.paragraphs)):
+            curParagraph = self.doc.paragraphs[index]  # 当前段落
+            style_name = curParagraph.style.name  # 当前段落格式
+            if style_name in self.titleDict.keys():
+                style_name = self.titleDict[style_name]
+            if not style_name.startswith('Heading'):
+                # 跳过非标题段落
+                continue
+            # print(style_name.split())
+            level = int(style_name.split()[-1])
+
+            if level > plevel:
+                title_text = self.extract_content_inside_brackets(curParagraph.text) or curParagraph.text
+                pdict[title_text] = now_dic
+                index = self.read_all_titles2(level, now_dic, index + 1)
+                if index < len(self.doc.paragraphs):
+                    index -= 1
+            else:
+                break
+        if fillTable and len(pdict) == 0:
+            current_dict = self.all_tables[self.tablesindex]
+            self.tablesindex += 1
+        return index
 
     def extract_content_inside_brackets(self, sentence):
         """
@@ -159,31 +172,28 @@ class readWord:
                 result += " " * (indent + 4) + str(value) + "\n"
         return result
 
-    def loadCsv(self, data, parent=None):
+    def loadCsv(self, rows, data, parent=None):
         # 写入数据
 
         for key, value in data.items():
             # node = Node("Chapter", name=key)
             # graph.create(node)
             if parent is not None:
-                self.rows.append([parent, "HAS_CHILD", key, '_', '_', "Chapter", "Chapter"])
+                rows.append([parent, "HAS_CHILD", key, '_', '_', "Chapter", "Chapter"])
                 # csv_writer.writerow((parent, "HAS_CHILD", key, '_', '_', "Chapter", "Chapter"))
                 # relationship = Relationship(parent, "HAS_CHILD", node)
                 # graph.create(relationship)
             if isinstance(value, dict):
-                self.loadCsv(value, key)
-            else:
-                self.rows.append([key, "HAS_CHILD", value, '_', '_', "Chapter", "Content"])
+                self.loadCsv(rows, value, key)
 
     def getTitleCsv(self, data):
         # graph.delete_all()
         paper = {}
         paper['全文'] = data
-        print(paper)
-
+        rows = []
         with open(self.csv_file_path, 'w', encoding='utf-8') as file:
-            self.loadCsv(data=paper)
-        self.assign_numbers()
+            self.loadCsv(data=paper, rows=rows)
+        self.assign_numbers(rows=rows)
         self.create_graph_from_csv(self.csv_file_path)
 
     def create_graph_from_csv(self, csv_file: str, uri: str = "bolt://localhost:7687", username: str = "neo4j",
@@ -230,7 +240,7 @@ class readWord:
                 # 将节点和关系添加到图数据库
                 graph.create(sender_node | receiver_node | action_relationship)
 
-    def assign_numbers(self, current_number=0):
+    def assign_numbers(self, rows, current_number=0):
         '''
 
         Args:
@@ -248,7 +258,7 @@ class readWord:
         with open(self.csv_file_path, 'w', newline='', encoding='utf-8') as outfile:
             writer = csv.writer(outfile)
 
-            for row in tqdm(self.rows, position=0):
+            for row in tqdm(rows, position=0):
                 # 获取实物名称
                 # 检查行的长度，如果不足5个字段则跳过
 
@@ -280,18 +290,18 @@ class readWord:
                 row[4] = objects[object2] if number2 == '_' else number2
                 writer.writerow(row)
                 # 写入到输出文件
-        # print(rows)
+        #print(rows)
+
 
 
 if __name__ == "__main__":
     # 生成样本文档
-    word_path = "格式模板样例-tl（公开）——改标题三.docx"
+    word_path = "格式模板样例-tl（公开）.docx"
     # create_sample_document(word_path)
     csv_file = 'csv_file.csv'
     rd = readWord(word_path, csv_file)
     res = rd.read_titles()
-    print(rd.format_data(res))
     rd.getTitleCsv(res)
     print(rd.format_data(data=res))
 
-    # rd.print_content()
+    # 打印一级标题列表

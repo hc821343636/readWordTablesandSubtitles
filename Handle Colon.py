@@ -29,7 +29,7 @@ from ltp import StnSplit
 
 def readTxt(filePath):
     # 打开文件
-    with open(filePath, 'r') as file:
+    with open(filePath, 'r',encoding='gbk') as file:
         # 读取文件内容
         content = file.read()
         # 将空格和换行删除
@@ -90,4 +90,3 @@ if __name__ == '__main__':
     filePath = "冒号测试.txt"
 
     updateTxt(filePath)
-    import sympy as sp
