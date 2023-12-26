@@ -7,7 +7,16 @@ from docx import Document
 from py2neo import Graph, Node, Relationship
 from tqdm import tqdm
 
+from handleColonGpt import process_text_ignore_extra_content
 
+
+# word 要求
+# word的子标题下面 如果是正文，则必须只有一段
+# 正文里面有冒号 当且仅当有（一） 这类标号
+# 一级标题 第xx章 为行动大类  类似于 第五章 进攻行动
+# 二级标题 第xx节 中为具体行动的名称，类似于 第二节  进攻掩护行动
+# 三级标题【】中为具体行动的特征/要素，类似于 【对友方效果】，且 不允许将正文的内容放于三级标题格式
+# 正文中 如果有（一） 这类标号 ，必须使用。（句号）进行结尾。类似于“设备维护主要包括：（一）表单建立。（二）指派人员。”，而不能是；（分号）
 class readWord:
     def __init__(self, word_path, csv_file_path):
         self.titleDict = {
@@ -117,7 +126,8 @@ class readWord:
             # 如果需要进行填表，且当前表没有被填过，或者当前段落不是标题（标题 x或者 x级）
             if not self.visit[i] and style_name == "Normal":
                 self.visit[i] = True
-                return curParagraph.text
+                return process_text_ignore_extra_content(
+                    curParagraph.text) if '（一）' in curParagraph.text else [curParagraph.text]
             if self.visit[i] or not style_name.startswith('Heading'):
                 # 跳过非标题段落
                 continue
@@ -166,12 +176,32 @@ class readWord:
             # node = Node("Chapter", name=key)
             # graph.create(node)
             if parent is not None:
-                self.rows.append([parent, "HAS_CHILD", key, '_', '_', "Chapter", "Chapter"])
+                parentType = "Chapter"
+                keyType = "Chapter"
+                if parent == '全文':
+                    parentType = "All"
+                elif '章' in parent and '第' in parent:
+                    parentType = "Chapter"
+                elif '节' in parent and '第' in parent:
+                    parentType = "movementType"
+                else:
+                    parentType = "movement"
+
+                if '章' in key:
+                    keyType = "Chapter"
+                elif '节' in key and '第' in key:
+                    keyType = "movementType"
+                else:
+                    keyType = "movement"
+                self.rows.append([parent, "HAS_CHILD", key, '_', '_', parentType, keyType])
                 # csv_writer.writerow((parent, "HAS_CHILD", key, '_', '_', "Chapter", "Chapter"))
                 # relationship = Relationship(parent, "HAS_CHILD", node)
                 # graph.create(relationship)
             if isinstance(value, dict):
                 self.loadCsv(value, key)
+            elif isinstance(value, list):
+                for item in value:
+                    self.rows.append([key, "HAS_CHILD", item, '_', '_', "Chapter", "Content"])
             else:
                 self.rows.append([key, "HAS_CHILD", value, '_', '_', "Chapter", "Content"])
 

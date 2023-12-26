@@ -2,6 +2,7 @@ import re
 
 from ltp import StnSplit
 
+
 '''
 处理冒号的并列关系
 该代码可以将类似于：
@@ -25,7 +26,6 @@ from ltp import StnSplit
 那么一个点会被识别为2句话
 
 '''
-
 
 def readTxt(filePath):
     # 打开文件
@@ -57,6 +57,7 @@ def replace_numbered_markers(text, replacement):
     pattern = r'：.*（一）'
     replacement_text = "是"
     text = re.sub(pattern, replacement_text, text)
+    print(text)
     # 将：（[二三四五六七八九十]）替换为xxxx是
     pattern = re.compile(r'（[二三四五六七八九十]+）')
 
@@ -84,6 +85,22 @@ def updateTxt(filePath, ):
     print(res)
     writeTxt(filePath,res)
 
+def updateContent(content):
+    lastIndex = 0
+    sents = StnSplit().split(content)
+    res = ""
+    colonE = ':'
+    colonC = '：'
+    for sent in sents:
+        if colonC in sent:
+            sentsBeforeColon = ''.join(sents[lastIndex:sents.index(sent)])
+            lastIndex = sents.index(sent)
+            replacement = extract_content(sentsBeforeColon)
+            res += replace_numbered_markers(sentsBeforeColon, replacement)
+    sentsBeforeColon = ''.join(sents[lastIndex:])
+    replacement = extract_content(sentsBeforeColon)
+    res += replace_numbered_markers(sentsBeforeColon, replacement)
+    return res
 
 
 if __name__ == '__main__':
