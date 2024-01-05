@@ -1,5 +1,7 @@
 import re
-from ltp import  StnSplit
+
+from ltp import StnSplit
+
 '''
 处理冒号的并列关系
 该代码可以将类似于：
@@ -33,7 +35,7 @@ def read_text(file_path):
 def write_text(file_path, content):
     # 写入处理后的文本到新文件
     with open(file_path, 'w', encoding='utf-8') as file:
-        if isinstance(content,list):
+        if isinstance(content, list):
             for item in content:
                 file.write(item)
         else:
@@ -66,7 +68,7 @@ def process_text_ignore_extra_content(text):
     processed_text = processed_text.replace(post_colon_content, '', 1)
 
     # 移除标题之前的内容和冒号
-    processed_text =  processed_text[processed_text.index('：') + 1:]
+    processed_text = processed_text[processed_text.index('：') + 1:]
     print(StnSplit().split(processed_text))
     return StnSplit().split(processed_text)
 
