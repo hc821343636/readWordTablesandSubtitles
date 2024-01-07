@@ -1,7 +1,6 @@
 from docx import Document
-from docx.shared import Pt
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
-from docx.oxml.ns import qn
+from docx.shared import Pt
 
 # 创建一个新的Word文档
 doc = Document()
