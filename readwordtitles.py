@@ -247,7 +247,6 @@ class readWord:
                 sender_name, action_name, receiver_name, sender_number, receiver_number, sender_class, receiver_class = row
 
                 # 检查节点是否已存在，如果不存在则创建
-
                 sender_node = created_nodes.get(sender_number,
                                                 Node(sender_class, name=sender_name, number=sender_number))
                 receiver_node = created_nodes.get(receiver_number,

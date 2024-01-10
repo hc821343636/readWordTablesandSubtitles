@@ -27,18 +27,20 @@ def import_relationships(graph: Graph, relationship_file: str) -> None:
         for _, row in df.iterrows():
             end_node_name = row['头']
             start_node_name = row['尾']
+            relationship_name = row['关系名']
             start_node = graph.nodes.match(name=start_node_name).first()
             end_node = graph.nodes.match(name=end_node_name).first()
             if start_node and end_node:
                 relation_properties = dict(row[3:])
-                relation = Relationship(start_node, sheet_name, end_node, **relation_properties)
+                relation_properties['关系类型'] = sheet_name
+                relation = Relationship(start_node, relationship_name, end_node, **relation_properties)
                 graph.create(relation)
 
 
 if __name__ == '__main__':
-    graph = Graph("neo4j://localhost:7687", auth=("neo4j", "12345678"))
+    graph = Graph("neo4j://localhost:7687", auth=("neo4j", "12345678"), name='mac0110')
     graph.delete_all()
-    entity_file = './data/实体表删除第一sheet.xlsx'
-    relationship_file = './data/关系表删除第一sheet.xlsx'
+    entity_file = 'data/实体表1.10.xlsx'
+    relationship_file = 'data/关系表1.10.xlsx'
     import_entities(graph, entity_file)
     import_relationships(graph, relationship_file)

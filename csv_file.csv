@@ -1,0 +1,60 @@
+全文,HAS_CHILD,第一章  总则,0,1,All,Chapter
+第一章  总则,HAS_CHILD,依据,1,2,Chapter,movement
+依据,HAS_CHILD,为了适应学校课程信息化要求，满足师生远程授教学习需求，制定该《xxxxx》准则，规范网络信息管理员工作任务流程。,2,3,Chapter,Content
+第一章  总则,HAS_CHILD,目的,1,4,Chapter,movement
+目的,HAS_CHILD,网络信息管理员的目的是对网络信息管理员的目的是综合,4,5,Chapter,Content
+第一章  总则,HAS_CHILD,要求,1,6,Chapter,movement
+要求,HAS_CHILD,网络信息管理员的工作任务是对机组下设备进行管理。,6,7,Chapter,Content
+要求,HAS_CHILD,网络信息管理员的工作任务是跟进后台信息，对故障设备保修情况进行记录，并指派人员进行维修。,6,8,Chapter,Content
+要求,HAS_CHILD,网络信息管理员的工作任务是监控网络下各计算机网络访问情况，识别风险操作。,6,9,Chapter,Content
+全文,HAS_CHILD,第二章  基本工作,0,10,All,Chapter
+第二章  基本工作,HAS_CHILD,第一节  设备管理,10,11,Chapter,movementType
+第一节  设备管理,HAS_CHILD,涉及硬件,11,12,movementType,movement
+涉及硬件,HAS_CHILD,设备管理主要完成对机组下使用的各种设备的登记管理，记录设备使用情况。通常情况下设备管理任务面向机组下所有电子设备，包括台式计算机、便携式计算机、显示器与各种输出设备。,12,13,Chapter,Content
+第一节  设备管理,HAS_CHILD,流程实施,11,14,movementType,movement
+流程实施,HAS_CHILD,设备管理主要包括是设备登记。,14,15,Chapter,Content
+流程实施,HAS_CHILD,网络信息管理员对新设备信息进行登记。,14,16,Chapter,Content
+流程实施,HAS_CHILD,设备管理主要包括是出入记录。,14,17,Chapter,Content
+流程实施,HAS_CHILD,在有设备借出归还时对信息进行留档记录。,14,18,Chapter,Content
+第二章  基本工作,HAS_CHILD,第二节  设备维护,10,19,Chapter,movementType
+第二节  设备维护,HAS_CHILD,设备硬件维护,19,20,movementType,movement
+设备硬件维护,HAS_CHILD,设备维护主要完成对机组下使用的各种设备的故障信息进行登记备案，指派维护人员前往进行设备整修，完成维修业务创建、执行、结束整个业务流程。通常情况下设备维护任务面向机组下所有电子设备，包括台式计算机、便携式计算机、显示器与各种输出设备。,20,21,Chapter,Content
+第二节  设备维护,HAS_CHILD,设备维护流程,19,22,movementType,movement
+设备维护流程,HAS_CHILD,设备维护主要包括是维护所有电子设备，包括台式计算机、便携式计算机、显示器与各种输出设备。,22,23,Chapter,Content
+设备维护流程,HAS_CHILD,设备维护主要包括是完成维修业务创建、执行、结束整个业务流程。,22,24,Chapter,Content
+设备维护流程,HAS_CHILD,设备维护主要包括是侯晨电子科技大学。,22,25,Chapter,Content
+第二章  基本工作,HAS_CHILD,第三节  网络流量监控,10,26,Chapter,movementType
+第三节  网络流量监控,HAS_CHILD,硬件流量监控,26,27,movementType,movement
+硬件流量监控,HAS_CHILD,网络流量监控主要完成对机组下使用的各种设备的故障信息进行登记备案，指派维护人员前往进行设备整修，完成维修业务创建、执行、结束整个业务流程。通常情况下网络流量监控任务面向机组下所有电子设备，包括台式计算机、便携式计算机、显示器与各种输出设备。,27,28,Chapter,Content
+第三节  网络流量监控,HAS_CHILD,网络监控流程,26,29,movementType,movement
+网络监控流程,HAS_CHILD,设备维护主要包括是表单建立。,29,30,Chapter,Content
+网络监控流程,HAS_CHILD,跟进反馈系统创建故障表单。,29,31,Chapter,Content
+网络监控流程,HAS_CHILD,设备维护主要包括是指派人员。,29,32,Chapter,Content
+网络监控流程,HAS_CHILD,依照当前人员调度情况指派维修人员前往维护。,29,33,Chapter,Content
+网络监控流程,HAS_CHILD,设备维护主要包括是维修闭环。,29,34,Chapter,Content
+网络监控流程,HAS_CHILD,业务结束对该次表单进行总结。,29,35,Chapter,Content
+全文,HAS_CHILD,第五章  网络地址分配任务,0,36,All,Chapter
+第五章  网络地址分配任务,HAS_CHILD,第一节  目的和要求,36,37,Chapter,movementType
+第一节  目的和要求,HAS_CHILD,主要目的,37,38,movementType,movement
+主要目的,HAS_CHILD,网络地址分配的主要目的是是对计算机IP进行分配。,38,39,Chapter,Content
+第一节  目的和要求,HAS_CHILD,基本要求,37,40,movementType,movement
+基本要求,HAS_CHILD,网络地址分配时，应当按照要求进行分配。,40,41,Chapter,Content
+第五章  网络地址分配任务,HAS_CHILD,第二节  主要步骤与方法,36,42,Chapter,movementType
+第二节  主要步骤与方法,HAS_CHILD,核对库存,42,43,movementType,movement
+核对库存,HAS_CHILD,核对库存阶段，网络信息管理员应根据可用地址与目标规模，确定使用的网段信息是操作对象。,43,44,Chapter,Content
+核对库存,HAS_CHILD,核对库存阶段，网络地址分配的主要对象包括台式计算机，便携式计算机以及一体机。,43,45,Chapter,Content
+核对库存,HAS_CHILD,核对库存阶段，网络信息管理员应根据可用地址与目标规模，确定使用的网段信息是地址分配。,43,46,Chapter,Content
+核对库存,HAS_CHILD,核对库存阶段，通常将可用的地址按照权限划分为超级用户组、普通用户组两部分。,43,47,Chapter,Content
+核对库存,HAS_CHILD,1．超级用户组，网段以子网下的01开头，包含256个可用的网络地址。,43,48,Chapter,Content
+核对库存,HAS_CHILD,2．普通用户组，网段以子网下的02可用子网开始。,43,49,Chapter,Content
+核对库存,HAS_CHILD,核对库存阶段，网络信息管理员应根据可用地址与目标规模，确定使用的网段信息是操作方法。,43,50,Chapter,Content
+核对库存,HAS_CHILD,核对库存阶段，网络信息管理员核实已使用台账，确定可以使用的网络地址列表，并依照网段划分确定各网段下可用地址规模；对超级用户地址设定高级权限，对普通用户限制其可用权限。,43,51,Chapter,Content
+第二节  主要步骤与方法,HAS_CHILD,实地考察分配,42,52,movementType,movement
+实地考察分配,HAS_CHILD,实地考察分配阶段，网络信息管理员应完成考察任务。,52,53,Chapter,Content
+第二节  主要步骤与方法,HAS_CHILD,汇总出入,42,54,movementType,movement
+汇总出入,HAS_CHILD,汇总出入阶段，网络信息管理员应完成表单更新任务。,54,55,Chapter,Content
+第五章  网络地址分配任务,HAS_CHILD,第三节  典型场景网络地址分配任务重点,36,56,Chapter,movementType
+第三节  典型场景网络地址分配任务重点,HAS_CHILD,图书馆网络地址分配任务重点,56,57,movementType,movement
+图书馆网络地址分配任务重点,HAS_CHILD,图书馆场地下xxxx。,57,58,Chapter,Content
+第三节  典型场景网络地址分配任务重点,HAS_CHILD,网吧网络地址分配任务重点,56,59,movementType,movement
+网吧网络地址分配任务重点,HAS_CHILD,网吧场地下xxxx。,59,60,Chapter,Content
